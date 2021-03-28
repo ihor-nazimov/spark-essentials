@@ -85,11 +85,19 @@ object Datasets extends App {
 
   guitarPlayersDS.join(bandsDS, bandsDS.col("id") === guitarPlayersDS.col("band"), "left_outer").show
 
-  guitarPlayersDS.joinWith(guitarsDS, array_contains(guitarPlayersDS.col("guitars"), guitarsDS.col("id")), "left_outer").show
+  guitarPlayersDS
+    .joinWith(
+      guitarsDS,
+      array_contains(guitarPlayersDS.col("guitars"), guitarsDS.col("id")),
+      "left_outer"
+    )
+    .select(col("_1.name"))
+    .show
 
   carsDS
     .groupByKey(_.Origin)
-    . count
+    .count
     .show
+
 
 }
